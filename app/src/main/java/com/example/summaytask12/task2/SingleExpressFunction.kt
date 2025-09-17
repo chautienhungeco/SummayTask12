@@ -10,6 +10,7 @@ fun main() {
     singleExpr.compareTranditionalAndSingleLine()
     singleExpr.testCollectionOperations()
     singleExpr.compareIfElseAndWhen()
+    singleExpr.comparePerformance()
 }
 
 class SingleExpressFunction {
@@ -19,24 +20,31 @@ class SingleExpressFunction {
     }
 
     fun compareTranditionalAndSingleLine(){
-        Log.d(TAG, "1. base function")
+        Log.d(TAG, "===Các hàm cơ bản====")
         Log.d(TAG, "Tổng (hàm biểu thức đơn) : ${calculateSum(10, 20)}")
         Log.d(TAG, "Tổng (Hàm thông thường) : ${calculateSumTraditional(10, 20)}")
         Log.d(TAG, "Tổng (overflow) : ${calculateSumSafe(Int.MAX_VALUE, 1)}")
     }
 
     fun testCollectionOperations(){
-        Log.d(TAG, "3. Collection Operations:")
+        Log.d(TAG, "==Tập hợp====")
         val testList = listOf(2, -13, 0, 10, 2, 8, 4, 12)
         Log.d(TAG, "Danh sách (Filter + Map): ${filterAndMapNumbers(testList)}")
         Log.d(TAG, "Danh sách (Optimized): ${filterAndMapNumbersOptimized(testList)}")
     }
 
     fun compareIfElseAndWhen(){
-        Log.d(TAG, "4. Conditional Logic:")
+        Log.d(TAG, "==Hàm logic có điều kiện===")
         Log.d(TAG, "Điểm đạt (if-else): ${calculateGradeNested(85)}")
         Log.d(TAG, "Điểm đạt (when): ${calculateGradeWhen(85)}")
         Log.d(TAG, "Điểm đạt (range): ${calculateGradeRange(85)}")
+    }
+
+    fun comparePerformance(){
+        Log.d(TAG, "==So sánh về hiệu suất===")
+        val largeList = (1..1000).toList()
+        compareFilterMapPerformance(largeList)
+        compareConditionalPerformance()
     }
 
      //hàm biểu thức đơn: Ngắn gọn, dễ đọc, hiệu quả với phép tính đơn giản
@@ -101,6 +109,58 @@ class SingleExpressFunction {
         in 70..79 -> "C"
         in 60..69 -> "D"
         else -> "F"
+    }
+
+    fun compareFilterMapPerformance(numberList: List<Int>) {
+        Log.d(TAG, "=== SO SÁNH HIỆU SUẤT FILTER + MAP ===")
+        Log.d(TAG, "Dữ liệu test: ${numberList.size} phần tử")
+
+        val time1 = measureTimeMillis {
+            repeat(1000) {
+                filterAndMapNumbers(numberList)
+            }
+        }
+        Log.d(TAG, "Biểu thức đơn với (filter + map): ${time1}ms")
+
+        val time2 = measureTimeMillis {
+            repeat(1000) {
+                filterAndMapNumbersOptimized(numberList)
+            }
+        }
+        Log.d(TAG, "Biểu thức đơn tối ưu với (mapNotNull): ${time2}ms")
+
+        val time3 = measureTimeMillis {
+            repeat(1000) {
+                filterAndMapNumbersTraditional(numberList)
+            }
+        }
+        Log.d(TAG, "Vòng lặp cơ bản: ${time3}ms")
+    }
+
+    fun compareConditionalPerformance() {
+        Log.d(TAG, "=== SO SÁNH HIỆU SUẤT CONDITIONAL ===")
+        val scores = listOf(95, 85, 75, 65, 55)
+
+        val time1 = measureTimeMillis {
+            repeat(10000) {
+                scores.forEach { calculateGradeNested(it) }
+            }
+        }
+        Log.d(TAG, "if-else lồng: ${time1}ms")
+
+        val time2 = measureTimeMillis {
+            repeat(10000) {
+                scores.forEach { calculateGradeWhen(it) }
+            }
+        }
+        Log.d(TAG, "Điều kiện When: ${time2}ms")
+
+        val time3 = measureTimeMillis {
+            repeat(10000) {
+                scores.forEach { calculateGradeRange(it) }
+            }
+        }
+        Log.d(TAG, "Range-based when: ${time3}ms")
     }
 
 }
