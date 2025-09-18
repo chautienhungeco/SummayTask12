@@ -1,7 +1,6 @@
-package com.example.summaytask12.task2
+package com.example.summaytask12
 
 import android.util.Log
-import kotlin.math.sign
 import kotlin.system.measureTimeMillis
 
 fun main() {
@@ -120,21 +119,21 @@ class SingleExpressFunction {
                 filterAndMapNumbers(numberList)
             }
         }
-        Log.d(TAG, "Biểu thức đơn với (filter + map): ${time1}ms")
+        Log.d(TAG, "Biểu thức đơn với (filter + map): ${time1}ms")  //192ms
 
         val time2 = measureTimeMillis {
             repeat(1000) {
                 filterAndMapNumbersOptimized(numberList)
             }
         }
-        Log.d(TAG, "Biểu thức đơn tối ưu với (mapNotNull): ${time2}ms")
+        Log.d(TAG, "Biểu thức đơn tối ưu với (mapNotNull): ${time2}ms") //134ms
 
         val time3 = measureTimeMillis {
             repeat(1000) {
                 filterAndMapNumbersTraditional(numberList)
             }
         }
-        Log.d(TAG, "Vòng lặp cơ bản: ${time3}ms")
+        Log.d(TAG, "Vòng lặp cơ bản: ${time3}ms")      //116ms
     }
 
     fun compareConditionalPerformance() {
@@ -146,21 +145,21 @@ class SingleExpressFunction {
                 scores.forEach { calculateGradeNested(it) }
             }
         }
-        Log.d(TAG, "if-else lồng: ${time1}ms")
+        Log.d(TAG, "if-else lồng: ${time1}ms")  //10ms
 
         val time2 = measureTimeMillis {
             repeat(10000) {
                 scores.forEach { calculateGradeWhen(it) }
             }
         }
-        Log.d(TAG, "Điều kiện When: ${time2}ms")
+        Log.d(TAG, "Điều kiện When: ${time2}ms")    //5ms
 
         val time3 = measureTimeMillis {
             repeat(10000) {
                 scores.forEach { calculateGradeRange(it) }
             }
         }
-        Log.d(TAG, "Range-based when: ${time3}ms")
+        Log.d(TAG, "Range-based when: ${time3}ms") //4ms
     }
 
 }

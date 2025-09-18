@@ -1,4 +1,4 @@
-package com.example.summaytask12.task2
+package com.example.summaytask12
 
 import android.util.Log
 
