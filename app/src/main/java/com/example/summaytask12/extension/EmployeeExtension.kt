@@ -40,7 +40,7 @@ fun List<Employee>.findHighestPaidEmployee(): Employee?{
 
 fun List<Employee>.getBachKhoaInternsCount(): Int {
     return this.filterIsInstance<Intern>()
-        .count{it.university == "Đại học Bách Khoa"}
+        .count{it.university.lowercase().contains("đại học bách khoa")}
 }
 
 fun List<Employee>.getChuyenVienCount(): Int{
