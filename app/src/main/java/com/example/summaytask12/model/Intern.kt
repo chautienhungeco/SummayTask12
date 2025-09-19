@@ -5,10 +5,12 @@ class Intern(
     fullName: String,
     birthYear: Int,
     salaryCoeffecient: Double,
+    contactInformation: ContactInformation,
+    employeeStatus: EmployeeStatus,
     val major: String,
     val university: String,
     val projectsCompleted: Int
-): Employee(employeeId, fullName, birthYear, salaryCoeffecient){
+): Employee(employeeId, fullName, birthYear, salaryCoeffecient, contactInformation, employeeStatus){
     override fun calculateSalary(): Double {
         var salary = salaryCoeffecient.times(1000000).plus(projectsCompleted.times(1200000))
         if (university == "Đại học Bách Khoa"){

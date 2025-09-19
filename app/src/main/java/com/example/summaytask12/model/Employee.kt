@@ -4,7 +4,9 @@ abstract class Employee (
     val employeeId: String,
     val fullName: String,
     val birthYear: Int,
-    val salaryCoeffecient: Double
+    val salaryCoeffecient: Double,
+    val contactInformation: ContactInformation,
+    val employeeStatus: EmployeeStatus
 ) {
     abstract fun calculateSalary(): Double
 }

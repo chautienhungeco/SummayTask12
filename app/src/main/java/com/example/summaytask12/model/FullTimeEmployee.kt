@@ -1,14 +1,16 @@
 package com.example.summaytask12.model
 
-class FullTimeEmployee (
+class FullTimeEmployee(
     employeeId: String,
     fullName: String,
     birthYear: Int,
     salaryCoeffecient: Double,
-    val position: String,
+    contactInformation: ContactInformation,
+    employeeStatus: EmployeeStatus,
+    val position: Position,
     val positionAllowance: Double,
     val overtimeDays: Int
-) : Employee(employeeId, fullName,birthYear, salaryCoeffecient){
+) : Employee(employeeId, fullName,birthYear, salaryCoeffecient, contactInformation, employeeStatus){
     override fun calculateSalary(): Double {
         return (salaryCoeffecient.times(1500000.0)).plus(positionAllowance).plus(overtimeDays.times(500000.0))
     }
