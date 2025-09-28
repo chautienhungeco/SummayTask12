@@ -1,6 +1,6 @@
 package com.example.summaytask12.model
 
-abstract class Employee (
+abstract class Employee(
     val employeeId: String,
     val fullName: String,
     val birthYear: Int,

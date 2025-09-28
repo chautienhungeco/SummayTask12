@@ -9,51 +9,45 @@ import com.example.summaytask12.model.Intern
 import com.example.summaytask12.model.Position
 
 fun Employee.getDisplayInfor(): String {
-    return when (this){
+    return when (this) {
         is FullTimeEmployee -> {
-            "Mã nhân viên: ${this.employeeId}\n"+
-            "Họ tên: ${this.fullName}\n"+
-            "Chức vụ: ${this.position}\n"+
-            "Lương: ${this.calculateSalary().formatCurrency()} VNĐ"
+            "Mã nhân viên: ${this.employeeId}\n" +
+                    "Họ tên: ${this.fullName}\n" +
+                    "Chức vụ: ${this.position}\n" +
+                    "Lương: ${this.calculateSalary().formatCurrency()} VNĐ"
         }
+
         is Intern -> {
-            "Mã học sinh: ${this.employeeId}\n"+
-            "Họ tên: ${this.fullName}\n"+
-            "Trờng đào tạo: ${this.university}"+
-            "Lương: ${this.calculateSalary().formatCurrency()} VNĐ"
+            "Mã học sinh: ${this.employeeId}\n" +
+                    "Họ tên: ${this.fullName}\n" +
+                    "Trờng đào tạo: ${this.university}" +
+                    "Lương: ${this.calculateSalary().formatCurrency()} VNĐ"
         }
-        else ->{
-            "Mã nHân viên: ${this.employeeId}\n"+
-            "Họ tên: ${this.fullName}\n"+
-            "Lương: ${this.calculateSalary().formatCurrency()} VNĐ"
+
+        else -> {
+            "Mã nHân viên: ${this.employeeId}\n" +
+                    "Họ tên: ${this.fullName}\n" +
+                    "Lương: ${this.calculateSalary().formatCurrency()} VNĐ"
         }
     }
 }
 
-//fun Employee.getEmployeeType(): String{
-//    return when(this){
-//        is FullTimeEmployee -> "Nhân viên chính thức"
-//        is Intern -> "Thực tập sinh"
-//        else -> "Nhân viên"
-//    }
-//}
-
-fun List<Employee>.findHighestPaidEmployee(): Employee?{
+fun List<Employee>.findHighestPaidEmployee(): Employee? {
     return this.maxByOrNull { it.calculateSalary() }
 }
 
 fun List<Employee>.getSicenceInternsCount(): Int {
     return this.filterIsInstance<Intern>()
-        .count{it.university.lowercase().contains("đại học bách khoa")}
+        .count { it.university.lowercase().contains("đại học bách khoa") }
 }
 
 fun List<Employee>.getExpertCount(): Int {
     return this.filterIsInstance<FullTimeEmployee>()
-        .count{it.position == Position.EXPERT}
+        .count { it.position == Position.EXPERT }
 }
 
 fun List<Employee>.findEmployeeByName(keyword: String?): Employee? {
-    return  keyword?.let {
+    return keyword?.let {
         val lowerKeyword = it.lowercase().trim()
 
         this.find { employee ->
@@ -62,7 +56,10 @@ fun List<Employee>.findEmployeeByName(keyword: String?): Employee? {
     }
 }
 
-fun List<Employee>.findEmployeeByStatus(name: String? = null, status: EmployeeStatus? = null): Employee?{
+fun List<Employee>.findEmployeeByStatus(
+    name: String? = null,
+    status: EmployeeStatus? = null
+): Employee? {
     return this.find { employee ->
         val checkName = name?.let {
             employee.fullName.trim()?.lowercase()?.contains(it.trim().lowercase())

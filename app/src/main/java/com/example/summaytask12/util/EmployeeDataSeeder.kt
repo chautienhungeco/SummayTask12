@@ -7,8 +7,8 @@ import com.example.summaytask12.model.FullTimeEmployee
 import com.example.summaytask12.model.Intern
 import com.example.summaytask12.model.Position
 
-object EmployeeDataProvider {
-    fun getSampleEmployee(): List<Employee>{
+class EmployeeDataSeeder {
+    fun getSampleEmployee(): List<Employee> {
         return listOf<Employee>(
             FullTimeEmployee(
                 employeeId = "NV01",
@@ -18,7 +18,7 @@ object EmployeeDataProvider {
                 position = Position.DEPARTMENT_MANAGER,
                 positionAllowance = 25000000.0,
                 overtimeDays = 1,
-                contactInformation = ContactInformation("hungct@gmail.com","0982738219"),
+                contactInformation = ContactInformation("hungct@gmail.com", "0982738219"),
                 employeeStatus = EmployeeStatus.Active
             ),
             FullTimeEmployee(
@@ -29,7 +29,7 @@ object EmployeeDataProvider {
                 position = Position.DEPARTMENT_MANAGER,
                 positionAllowance = 15000000.0,
                 overtimeDays = 2,
-                contactInformation = ContactInformation("longlanh@gmail.com","01234545"),
+                contactInformation = ContactInformation("longlanh@gmail.com", "01234545"),
                 employeeStatus = EmployeeStatus.Onleave("Nghỉ thai sản")
             ),
             FullTimeEmployee(
@@ -40,7 +40,7 @@ object EmployeeDataProvider {
                 position = Position.EXPERT,
                 positionAllowance = 5000000.0,
                 overtimeDays = 3,
-                contactInformation = ContactInformation("nongnanh@gmail.com","036748212"),
+                contactInformation = ContactInformation("nongnanh@gmail.com", "036748212"),
                 employeeStatus = EmployeeStatus.Active
             ), Intern(
                 employeeId = "TTS01",
@@ -50,7 +50,7 @@ object EmployeeDataProvider {
                 major = "Công nghệ thông tin",
                 university = "Đại học Công nghệ",
                 projectsCompleted = 4,
-                contactInformation = ContactInformation("lolang@gmail.com","01324112"),
+                contactInformation = ContactInformation("lolang@gmail.com", "01324112"),
                 employeeStatus = EmployeeStatus.Active
             ),
             Intern(
@@ -61,8 +61,8 @@ object EmployeeDataProvider {
                 major = "Kỹ thuật mật mã",
                 university = "Đại học Bách Khoa",
                 projectsCompleted = 4,
-                contactInformation = ContactInformation("longtt@gmail.com","018272318"),
-                employeeStatus = EmployeeStatus.Retired("19/09/2025","Môi trường không phù hợp")
+                contactInformation = ContactInformation("longtt@gmail.com", "018272318"),
+                employeeStatus = EmployeeStatus.Retired("19/09/2025", "Môi trường không phù hợp")
             )
         )
     }

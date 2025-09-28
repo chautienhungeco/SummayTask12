@@ -10,8 +10,16 @@ class FullTimeEmployee(
     val position: Position,
     val positionAllowance: Double,
     val overtimeDays: Int
-) : Employee(employeeId, fullName,birthYear, salaryCoeffecient, contactInformation, employeeStatus){
+) : Employee(
+    employeeId,
+    fullName,
+    birthYear,
+    salaryCoeffecient,
+    contactInformation,
+    employeeStatus
+) {
     override fun calculateSalary(): Double {
-        return (salaryCoeffecient.times(1500000.0)).plus(positionAllowance).plus(overtimeDays.times(500000.0))
+        return (salaryCoeffecient.times(1500000.0)).plus(positionAllowance)
+            .plus(overtimeDays.times(500000.0))
     }
 }
