@@ -6,7 +6,7 @@ abstract class Employee(
     val birthYear: Int,
     val salaryCoeffecient: Double,
     val contactInformation: ContactInformation,
-    val employeeStatus: EmployeeStatus
+    var employeeStatus: EmployeeStatus
 ) {
     abstract fun calculateSalary(): Double
 }

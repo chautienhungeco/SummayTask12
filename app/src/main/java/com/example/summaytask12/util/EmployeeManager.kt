@@ -6,9 +6,10 @@ import com.example.summaytask12.extension.findEmployeeByStatus
 import com.example.summaytask12.extension.getDisplayInfor
 
 class EmployeeManager {
-    val employees = EmployeeDataSeeder().getSampleEmployee()
+    val employees = EmployeeDataSeeder().getSampleEmployee().toMutableList()
     val reportService = EmployeeReportService()
     val searchService = EmployeeSearchService()
+    val managementService = EmployeeManagementService()
 
 
     fun runEmployeeManagementSystem() {
@@ -23,7 +24,10 @@ class EmployeeManager {
                 5 -> searchEmployeeByStatusMenu()
                 6 -> filterEmployeeByBirthYearMenu()
                 7 -> countEmployeeByPositionMenu()
-                8 -> {
+                8 -> managementService.addEmployeeMenu(employees)
+                9 -> managementService.deleteEmployeeMenu(employees)
+                10 -> managementService.updateEmployeeStatusMenu(employees)
+                11 -> {
                     println("\nĐang thoát chương trình. bye bye")
                     isRunning = false
                 }
@@ -42,7 +46,10 @@ class EmployeeManager {
         println("5. Tìm kiếm nhân viên theo Tên và Trạng thái")
         println("6. Lọc nhân viên sinh trước năm: ")
         println("7. Thống kê số lượng theo chức vụ")
-        println("8. Thoát chương trình")
+        println("8. Thêm nhân viên mới")
+        println("9. Xóa nhân viên hiện có")
+        println("10. Cập nhật traạng thái cho nhân viên")
+        println("11. Thoát chương trình")
         print("Nhập lựa chọn của bạn: ")
     }
 
@@ -96,22 +103,23 @@ class EmployeeManager {
         if (maxYear == null) {
             println("Năm nhập vào không hợp lệ.")
             return
-        }
-
-        val filteredList = searchService.filterByBirthYear(employees, maxYear)
-
-        println("\n=== Nhân viên sinh trước năm $maxYear ===")
-        if (filteredList.isNotEmpty()) {
-            filteredList.forEach { employee ->
-                println("- ${employee.fullName} (Sinh năm: ${employee.birthYear})")
-            }
         } else {
-            println("Không tìm thấy nhân viên nào sinh trước năm $maxYear.")
+
+            val filteredList = searchService.filterByBirthYear(employees, maxYear)
+
+            println("\n Nh---ân viên sinh trước năm $maxYear ---")
+            if (filteredList.isNotEmpty()) {
+                filteredList.forEach { employee ->
+                    println("- ${employee.fullName} (Sinh năm: ${employee.birthYear})")
+                }
+            } else {
+                println("Không tìm thấy nhân viên nào sinh trước năm $maxYear.")
+            }
         }
     }
 
     private fun countEmployeeByPositionMenu() {
-        println("\n=== Thống kê nhân viên theo chức vụ ===")
+        println("\n--- Thống kê nhân viên theo chức vụ ---")
         val countMap = searchService.countEmployeesByPosition(employees)
 
         if (countMap.isNotEmpty()) {
