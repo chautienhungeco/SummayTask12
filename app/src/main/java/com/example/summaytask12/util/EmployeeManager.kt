@@ -3,6 +3,7 @@ package com.example.summaytask12.util
 import com.example.summaytask12.model.EmployeeStatus
 import com.example.summaytask12.extension.findEmployeeByName
 import com.example.summaytask12.extension.findEmployeeByStatus
+import com.example.summaytask12.extension.formatCurrency
 import com.example.summaytask12.extension.getDisplayInfor
 
 class EmployeeManager {
@@ -10,7 +11,6 @@ class EmployeeManager {
     val reportService = EmployeeReportService()
     val searchService = EmployeeSearchService()
     val managementService = EmployeeManagementService()
-
 
     fun runEmployeeManagementSystem() {
         var isRunning = true
@@ -23,11 +23,12 @@ class EmployeeManager {
                 4 -> searchEmployeeByNameMenu()
                 5 -> searchEmployeeByStatusMenu()
                 6 -> filterEmployeeByBirthYearMenu()
-                7 -> countEmployeeByPositionMenu()
-                8 -> managementService.addEmployeeMenu(employees)
-                9 -> managementService.deleteEmployeeMenu(employees)
-                10 -> managementService.updateEmployeeStatusMenu(employees)
-                11 -> {
+                7 -> findEmployeeByRangeSalary()
+                8 -> countEmployeeByPositionMenu()
+                9 -> managementService.addEmployeeMenu(employees)
+                10 -> managementService.deleteEmployeeMenu(employees)
+                11 -> managementService.updateEmployeeStatusMenu(employees)
+                12 -> {
                     println("\nĐang thoát chương trình. bye bye")
                     isRunning = false
                 }
@@ -41,15 +42,16 @@ class EmployeeManager {
         println("---CHƯƠNG TRÌNH QUẢN LÝ NHÂN VIÊN---")
         println("1. Hiển thị danh sách nhân viên")
         println("2. Tìm nhân viên lương cao nhất")
-        println("3. Thống kê (TTS Bách Khoa, Chuyên viên)")
+        println("3. Thống kê số lượng (TTS Bách Khoa, Chuyên viên)")
         println("4. Tìm kiếm nhân viên theo tên (Chính xác)")
         println("5. Tìm kiếm nhân viên theo Tên và Trạng thái")
         println("6. Lọc nhân viên sinh trước năm: ")
-        println("7. Thống kê số lượng theo chức vụ")
-        println("8. Thêm nhân viên mới")
-        println("9. Xóa nhân viên hiện có")
-        println("10. Cập nhật traạng thái cho nhân viên")
-        println("11. Thoát chương trình")
+        println("7. Lọc nhân viên theo khoảng lương: ")
+        println("8. Thống kê số lượng theo chức vụ")
+        println("9. Thêm nhân viên mới")
+        println("10. Xóa nhân viên hiện có")
+        println("11. Cập nhật traạng thái cho nhân viên")
+        println("12. Thoát chương trình")
         print("Nhập lựa chọn của bạn: ")
     }
 
@@ -128,6 +130,35 @@ class EmployeeManager {
             }
         } else {
             println("Không có dữ liệu nhân viên.")
+        }
+    }
+
+    private fun findEmployeeByRangeSalary() {
+        println("\n--- Thống kê nhân viên theo khoảng lương ---")
+        print("Nhập mức lương nhỏ nhất: ")
+        val minSalary = readLine()?.toDoubleOrNull() ?: 0.0
+
+        print("Nhập mức lương lớn nhất: ")
+        val maxSalary = readLine()?.toDoubleOrNull() ?: 0.0
+
+        if (maxSalary == null || maxSalary <= minSalary) {
+            println("Mức lương tối đa không hợp lệ!")
+            return
+        } else {
+            val findList = searchService.filterBySalaryRange(employees, minSalary, maxSalary)
+
+            println("\n---Danh sách NV lương từ ${minSalary.formatCurrency()} dến ${maxSalary.formatCurrency()} VNĐ---")
+            if (findList.isNotEmpty()) {
+                findList.forEach { employee ->
+                    println(
+                        "- ${employee.fullName} | Luương: ${
+                            employee.calculateSalary().formatCurrency()
+                        } VNĐ"
+                    )
+                }
+            } else {
+                println("Không tìm thấy nhân viên nào phù hợp")
+            }
         }
     }
 }

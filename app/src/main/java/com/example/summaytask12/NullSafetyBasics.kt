@@ -60,4 +60,7 @@ fun main() {
         return display
     }
 
+/*
+    sửa lại, bài thuyết trình cần trình bay từ tôổng quan đến part, ứng dụng cụ thể vào việc gì? cho cái gì?
+ */
 

@@ -32,4 +32,15 @@ class EmployeeSearchService {
             .groupBy { it }
             .mapValues { it.value.size }
     }
+
+    fun filterBySalaryRange(
+        employees: List<Employee>,
+        minSalary: Double,
+        maxSalary: Double
+    ): List<Employee> {
+        return employees.filter { employee ->
+            val salary = employee.calculateSalary()
+            salary >= minSalary && salary <= maxSalary
+        }
+    }
 }
