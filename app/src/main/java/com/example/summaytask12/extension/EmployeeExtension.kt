@@ -33,16 +33,16 @@ fun Employee.getDisplayInfor(): String {
 }
 
 fun List<Employee>.findHighestPaidEmployee(): Employee? {
-    return this.maxByOrNull { it.calculateSalary() }
+    return this.asSequence().maxByOrNull { it.calculateSalary() }
 }
 
 fun List<Employee>.getSicenceInternsCount(): Int {
-    return this.filterIsInstance<Intern>()
+    return this.asSequence().filterIsInstance<Intern>()
         .count { it.university.lowercase().contains("đại học bách khoa") }
 }
 
 fun List<Employee>.getExpertCount(): Int {
-    return this.filterIsInstance<FullTimeEmployee>()
+    return this.asSequence().filterIsInstance<FullTimeEmployee>()
         .count { it.position == Position.EXPERT }
 }
 

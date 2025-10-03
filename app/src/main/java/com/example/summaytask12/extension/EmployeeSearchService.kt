@@ -20,7 +20,7 @@ class EmployeeSearchService {
 
     fun countEmployeesByPosition(employees: List<Employee>): Map<Position, Int> {
 
-        val positions = employees.map { employee ->
+        val positions = employees.asSequence().map { employee ->
             when (employee) {
                 is FullTimeEmployee -> employee.position
                 is Intern -> Position.INTERN
@@ -38,9 +38,9 @@ class EmployeeSearchService {
         minSalary: Double,
         maxSalary: Double
     ): List<Employee> {
-        return employees.filter { employee ->
+        return employees.asSequence().filter { employee ->
             val salary = employee.calculateSalary()
             salary >= minSalary && salary <= maxSalary
-        }
+        }.toList()
     }
 }
