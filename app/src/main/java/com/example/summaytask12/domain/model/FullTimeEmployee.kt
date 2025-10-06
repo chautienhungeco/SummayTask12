@@ -1,4 +1,4 @@
-package com.example.summaytask12.model
+package com.example.summaytask12.domain.model
 
 class FullTimeEmployee(
     employeeId: String,
@@ -19,7 +19,7 @@ class FullTimeEmployee(
     employeeStatus
 ) {
     override fun calculateSalary(): Double {
-        return (salaryCoeffecient.times(1500000.0)).plus(positionAllowance)
+        return (salaryCoefficient.times(1500000.0)).plus(positionAllowance)
             .plus(overtimeDays.times(500000.0))
     }
 }

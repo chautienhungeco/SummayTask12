@@ -1,4 +1,4 @@
-package com.example.summaytask12.model
+package com.example.summaytask12.domain.model
 
 data class ContactInformation(
     val email: String,

@@ -1,11 +1,12 @@
-package com.example.summaytask12.util
+package com.example.summaytask12.data
 
-import com.example.summaytask12.model.ContactInformation
-import com.example.summaytask12.model.Employee
-import com.example.summaytask12.model.EmployeeStatus
-import com.example.summaytask12.model.FullTimeEmployee
-import com.example.summaytask12.model.Intern
-import com.example.summaytask12.model.Position
+import com.example.summaytask12.domain.model.ContactInformation
+import com.example.summaytask12.domain.model.Employee
+import com.example.summaytask12.domain.model.EmployeeStatus
+import com.example.summaytask12.domain.model.FullTimeEmployee
+import com.example.summaytask12.domain.model.Intern
+import com.example.summaytask12.domain.model.Position
+
 
 class EmployeeDataSeeder {
     fun getSampleEmployee(): List<Employee> {

@@ -1,10 +1,10 @@
-package com.example.summaytask12.model
+package com.example.summaytask12.domain.model
 
 abstract class Employee(
     val employeeId: String,
     val fullName: String,
     val birthYear: Int,
-    val salaryCoeffecient: Double,
+    val salaryCoefficient: Double,
     val contactInformation: ContactInformation,
     var employeeStatus: EmployeeStatus
 ) {
