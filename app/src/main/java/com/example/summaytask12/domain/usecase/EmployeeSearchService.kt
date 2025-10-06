@@ -8,12 +8,12 @@ import com.example.summaytask12.domain.model.Position
 
 class EmployeeSearchService(val repository: EmployeeRepository) {
 
-    fun filterByBirthYear(maxYear: Int): List<Employee> {
+    suspend fun filterByBirthYear(maxYear: Int): List<Employee> {
         val employees = repository.getAllEmployees()
         return employees.filter { it.birthYear <= maxYear }
     }
 
-    fun countEmployeesByPosition(): Map<Position, Int> {
+    suspend fun countEmployeesByPosition(): Map<Position, Int> {
         val employees = repository.getAllEmployees()
         val positions = employees.asSequence().map { employee ->
             when (employee) {
@@ -28,7 +28,7 @@ class EmployeeSearchService(val repository: EmployeeRepository) {
             .mapValues { it.value.size }
     }
 
-    fun filterBySalaryRange(
+    suspend fun filterBySalaryRange(
         minSalary: Double,
         maxSalary: Double
     ): List<Employee> {

@@ -8,7 +8,7 @@ import com.example.summaytask12.extension.getSicenceInternsCount
 
 class EmployeeReportService(private val repository: EmployeeRepository) {
 
-    fun generateEmployeeListReport(): String {
+    suspend fun generateEmployeeListReport(): String {
         val employees = repository.getAllEmployees()
         val report = StringBuilder()
         report.appendLine("\n--- Danh sách ${employees.size} nhân viên ---\n")
@@ -19,7 +19,7 @@ class EmployeeReportService(private val repository: EmployeeRepository) {
         return report.toString()
     }
 
-    fun generateHighestPaidEmployeeReport(): String {
+    suspend fun generateHighestPaidEmployeeReport(): String {
         val employees = repository.getAllEmployees()
         val report = StringBuilder()
         report.appendLine("\n--- Nhân viên lương VIP nhất ---")
@@ -32,7 +32,7 @@ class EmployeeReportService(private val repository: EmployeeRepository) {
         return report.toString()
     }
 
-    fun generateStatisticsReport(): String {
+    suspend fun generateStatisticsReport(): String {
         val employees = repository.getAllEmployees()
         val report = StringBuilder()
         report.appendLine("\n--- Thống kê ---\n")

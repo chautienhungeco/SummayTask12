@@ -7,6 +7,7 @@ import com.example.summaytask12.domain.usecase.EmployeeDataHandler
 import com.example.summaytask12.domain.usecase.EmployeeReportService
 import com.example.summaytask12.domain.usecase.EmployeeSearchService
 import com.example.summaytask12.domain.validation.InputValidator
+import kotlinx.coroutines.runBlocking
 
 class EmployeeProgram {
     private val repository = EmployeeRepositoryImpl(EmployeeDataSeeder())
@@ -42,17 +43,39 @@ class EmployeeProgram {
         while (isRunning) {
             displayMenu()
             when (readlnOrNull()?.toIntOrNull()) {
-                1 -> println(reportService.generateEmployeeListReport())
-                2 -> println(reportService.generateHighestPaidEmployeeReport())
-                3 -> println(reportService.generateStatisticsReport())
-                4 -> searchScreen.searchEmployeeByNameMenu()
-                5 -> searchScreen.searchEmployeeByStatusMenu()
-                6 -> searchScreen.filterEmployeeByBirthYearMenu()
-                7 -> searchScreen.findEmployeeByRangeSalary()
-                8 -> searchScreen.countEmployeeByPositionMenu()
-                9 -> managementScreen.addEmployeeMenu()
-                10 -> managementScreen.deleteEmployeeMenu()
-                11 -> managementScreen.updateEmployeeStatusMenu()
+                1 -> runBlocking {
+                    println(reportService.generateEmployeeListReport())
+                }
+                2 -> runBlocking {
+                    println(reportService.generateHighestPaidEmployeeReport())
+                }
+                3 -> runBlocking {
+                    println(reportService.generateStatisticsReport())
+                }
+                4 -> runBlocking{
+                    searchScreen.searchEmployeeByNameMenu()
+                }
+                5 -> runBlocking(){
+                    searchScreen.searchEmployeeByStatusMenu()
+                }
+                6 -> runBlocking{
+                    searchScreen.filterEmployeeByBirthYearMenu()
+                }
+                7 -> runBlocking(){
+                    searchScreen.findEmployeeByRangeSalary()
+                }
+                8 -> runBlocking{
+                    searchScreen.countEmployeeByPositionMenu()
+                }
+                9 -> runBlocking{
+                    managementScreen.addEmployeeMenu()
+                }
+                10 -> runBlocking{
+                    managementScreen.deleteEmployeeMenu()
+                }
+                11 -> runBlocking{
+                    managementScreen.updateEmployeeStatusMenu()
+                }
                 0 -> {
                     println("Đang thoát chương trình...")
                     isRunning = false

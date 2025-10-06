@@ -46,7 +46,7 @@ class EmployeeManagemenScreen(
         return Triple(fullName, birthYear, salaryCoefficient)
     }
 
-    fun addEmployeeMenu() {
+    suspend fun addEmployeeMenu() {
         println("\n--- Thêm Nhân Viên Mới ---")
         print("Chọn loại nhân viên (1: Chính thức, 2: Thực tập sinh): ")
         val typeChoice = readlnOrNull()?.toIntOrNull()
@@ -134,7 +134,7 @@ class EmployeeManagemenScreen(
         }
     }
 
-    fun deleteEmployeeMenu() {
+    suspend fun deleteEmployeeMenu() {
         println("\n--- Xóa Nhân Viên ---")
         print("Nhập Mã nhân viên cần xóa: ")
         val idToDelete = readlnOrNull()?.trim()
@@ -165,7 +165,7 @@ class EmployeeManagemenScreen(
         }
     }
 
-    fun updateEmployeeStatusMenu() {
+    suspend fun updateEmployeeStatusMenu() {
         println("\n--- Cập Nhật Trạng Thái Nhân Viên ---")
         print("Nhập Mã nhân viên cần cập nhật trạng thái: ")
         val idToUpdate = readlnOrNull()?.trim()

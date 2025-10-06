@@ -9,9 +9,9 @@ import com.example.summaytask12.extension.getDisplayInfor
 
 class EmployeeSearchScreen(private val searchService: EmployeeSearchService) {
 
-    private fun getEmployees() = searchService.repository.getAllEmployees()
+    private suspend fun getEmployees() = searchService.repository.getAllEmployees()
 
-    fun searchEmployeeByNameMenu() {
+    suspend fun searchEmployeeByNameMenu() {
         println("\n--- Tìm Kiếm Nhân Viên theo Tên ---")
         print("Nhập tên (hoặc một phần tên): ")
         val keyword = readlnOrNull()
@@ -24,7 +24,7 @@ class EmployeeSearchScreen(private val searchService: EmployeeSearchService) {
         } ?: println("Không tìm thấy nhân viên nào với tên '$keyword'.")
     }
 
-    fun searchEmployeeByStatusMenu() {
+    suspend fun searchEmployeeByStatusMenu() {
         println("\n--- Tìm Kiếm Nhân Viên theo Trạng Thái ---")
         print("Nhập tên (hoặc để trống): ")
         val name = readlnOrNull()
@@ -46,7 +46,7 @@ class EmployeeSearchScreen(private val searchService: EmployeeSearchService) {
         } ?: println("Không tìm thấy nhân viên nào phù hợp.")
     }
 
-    fun filterEmployeeByBirthYearMenu() {
+    suspend fun filterEmployeeByBirthYearMenu() {
         println("\n--- Lọc Nhân Viên theo Năm Sinh tối đa ---")
         print("Nhập năm sinh tối đa: ")
         val maxYear = readlnOrNull()?.toIntOrNull()
@@ -68,7 +68,7 @@ class EmployeeSearchScreen(private val searchService: EmployeeSearchService) {
         }
     }
 
-    fun findEmployeeByRangeSalary() {
+    suspend fun findEmployeeByRangeSalary() {
         println("\n--- Thống kê nhân viên theo khoảng lương ---\n")
         print("Nhập mức lương nhỏ nhất: ")
         val minSalary = readlnOrNull()?.toDoubleOrNull() ?: 0.0
@@ -97,7 +97,7 @@ class EmployeeSearchScreen(private val searchService: EmployeeSearchService) {
         }
     }
 
-    fun countEmployeeByPositionMenu() {
+    suspend fun countEmployeeByPositionMenu() {
         println("\n--- Thống kê Số lượng Nhân Viên theo Chức vụ ---")
         val countMap = searchService.countEmployeesByPosition()
 
