@@ -6,7 +6,7 @@ import com.example.summaytask12.domain.model.Intern
 import com.example.summaytask12.domain.model.Position
 
 fun List<Employee>.findHighestPaidEmployee(): Employee? {
-    return this.asSequence().maxByOrNull { it.calculateSalary() }
+    return this.maxByOrNull { it.calculateSalary() }
 }
 
 fun List<Employee>.getSicenceInternsCount(): Int {

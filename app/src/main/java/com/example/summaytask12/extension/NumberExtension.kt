@@ -7,10 +7,3 @@ fun Double.formatCurrency(): String {
 fun Int.formatCurrency(): String {
     return String.format("%,d", this)
 }
-
-
-
-
-
-
-

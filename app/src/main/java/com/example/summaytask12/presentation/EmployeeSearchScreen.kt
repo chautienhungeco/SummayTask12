@@ -7,14 +7,14 @@ import com.example.summaytask12.extension.findEmployeeByStatus
 import com.example.summaytask12.extension.formatCurrency
 import com.example.summaytask12.extension.getDisplayInfor
 
-class EmployeeSearchScreen(val searchService: EmployeeSearchService) {
+class EmployeeSearchScreen(private val searchService: EmployeeSearchService) {
 
-    fun getEmployees() = searchService.repository.getAllEmployees()
+    private fun getEmployees() = searchService.repository.getAllEmployees()
 
     fun searchEmployeeByNameMenu() {
         println("\n--- Tìm Kiếm Nhân Viên theo Tên ---")
         print("Nhập tên (hoặc một phần tên): ")
-        val keyword = readLine()
+        val keyword = readlnOrNull()
 
         val employee = getEmployees().findEmployeeByName(keyword)
 
@@ -27,12 +27,11 @@ class EmployeeSearchScreen(val searchService: EmployeeSearchService) {
     fun searchEmployeeByStatusMenu() {
         println("\n--- Tìm Kiếm Nhân Viên theo Trạng Thái ---")
         print("Nhập tên (hoặc để trống): ")
-        val name = readLine()
+        val name = readlnOrNull()
 
         println("Chọn Trạng Thái (1: Active, 2: Onleave, 3: Retired, [Bỏ qua]): ")
-        val statusChoice = readLine()?.toIntOrNull()
 
-        val status = when (statusChoice) {
+        val status = when (readlnOrNull()?.toIntOrNull()) {
             1 -> EmployeeStatus.Active
             2 -> EmployeeStatus.Onleave("")
             3 -> EmployeeStatus.Retired("", "")
@@ -50,7 +49,7 @@ class EmployeeSearchScreen(val searchService: EmployeeSearchService) {
     fun filterEmployeeByBirthYearMenu() {
         println("\n--- Lọc Nhân Viên theo Năm Sinh tối đa ---")
         print("Nhập năm sinh tối đa: ")
-        val maxYear = readLine()?.toIntOrNull()
+        val maxYear = readlnOrNull()?.toIntOrNull()
 
         if (maxYear == null || maxYear <= 0) {
             println("Năm sinh không hợp lệ.")
@@ -72,10 +71,10 @@ class EmployeeSearchScreen(val searchService: EmployeeSearchService) {
     fun findEmployeeByRangeSalary() {
         println("\n--- Thống kê nhân viên theo khoảng lương ---\n")
         print("Nhập mức lương nhỏ nhất: ")
-        val minSalary = readLine()?.toDoubleOrNull() ?: 0.0
+        val minSalary = readlnOrNull()?.toDoubleOrNull() ?: 0.0
 
         print("Nhập mức lương lớn nhất: ")
-        val maxSalary = readLine()?.toDoubleOrNull() ?: 0.0
+        val maxSalary = readlnOrNull()?.toDoubleOrNull() ?: 0.0
 
         if (maxSalary <= minSalary) {
             println("Mức lương tối đa phải lớn hơn mức lương tối thiểu.")

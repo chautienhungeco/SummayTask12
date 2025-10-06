@@ -3,31 +3,53 @@ package com.example.summaytask12.presentation
 import com.example.summaytask12.domain.model.ContactInformation
 import com.example.summaytask12.domain.usecase.EmployeeCreationService
 import com.example.summaytask12.domain.usecase.EmployeeDataHandler
+import com.example.summaytask12.domain.validation.InputValidator
 
 class EmployeeManagemenScreen(
-    val dataHandler: EmployeeDataHandler,
-    val creationService: EmployeeCreationService
+    private val inputValidator: InputValidator,
+    private val dataHandler: EmployeeDataHandler,
+    private val creationService: EmployeeCreationService
 ) {
 
-        fun getBasicEmployeeInput(id: String): Triple<String, Int, Double>? {
-        print("Nhập Họ tên: ")
-        val fullName = readLine() ?: ""
-        print("Nhập Năm sinh (ví dụ: 2000): ")
-        val birthYear = readLine()?.toIntOrNull() ?: 0
-        print("Nhập Hệ số lương (ví dụ: 4.5): ")
-        val salaryCoefficient = readLine()?.toDoubleOrNull() ?: 0.0
+    private fun getBasicEmployeeInput(): Triple<String, Int, Double>? {
 
-        if (fullName.isEmpty() || birthYear <= 0 || salaryCoefficient <= 0) {
-            println("Lỗi: Dữ liệu cơ bản không hợp lệ.")
+        print("Nhập họ tên: ")
+        val fullName = readlnOrNull() ?: ""
+        if (!inputValidator.isValidName(fullName)) {
+            println("Họ tên không hợp lệ (Không được chứa số hoặc ký tự đặc biệt)!.")
             return null
+        } else {
+            //tiếp tuc
         }
+
+        print("Nhập Năm sinh (ví dụ: 2000): ")
+        val birthYearInt = readlnOrNull() ?: ""
+        if (!inputValidator.isValidInt(birthYearInt)) {
+            println("Năm sinh là số nguyên dương!")
+            return null
+        } else {
+            //tiếp tuục
+        }
+        val birthYear = birthYearInt.toInt()
+
+        print("Nhập Hệ số lương (ví dụ: 4.5): ")
+        val salaryCoeffecient = readlnOrNull() ?: ""
+        if (!inputValidator.isValidDouble(salaryCoeffecient)) {
+            println("Hệ số lượng không hợp lệ")
+            return null
+        } else {
+            //tiếp tục
+        }
+
+        val salaryCoefficient = salaryCoeffecient.replace(',', '.').toDouble()
+
         return Triple(fullName, birthYear, salaryCoefficient)
     }
 
     fun addEmployeeMenu() {
         println("\n--- Thêm Nhân Viên Mới ---")
         print("Chọn loại nhân viên (1: Chính thức, 2: Thực tập sinh): ")
-        val typeChoice = readLine()?.toIntOrNull()
+        val typeChoice = readlnOrNull()?.toIntOrNull()
 
         if (typeChoice != 1 && typeChoice != 2) {
             println("Lựa chọn không hợp lệ.")
@@ -35,7 +57,7 @@ class EmployeeManagemenScreen(
         }
 
         print("Nhập Mã nhân viên (ví dụ: NV04, TTS03): ")
-        val id = readLine()?.trim() ?: ""
+        val id = readlnOrNull()?.trim() ?: ""
         if (dataHandler.isIdExists(id)) {
             println("Mã nhân viên $id đã tồn tại.")
             return
@@ -45,28 +67,47 @@ class EmployeeManagemenScreen(
             return
         }
 
-        val basicInput = getBasicEmployeeInput(id) ?: return
+        val basicInput = getBasicEmployeeInput() ?: return
         val (fullName, birthYear, salaryCoefficient) = basicInput
 
         print("Nhập Email: ")
-        val email = readLine() ?: ""
+        val email = readlnOrNull() ?: ""
+        if (!inputValidator.isValidEmail(email)) {
+            println("Email không hợp lệ")
+            return
+        } else {
+            //tieeps tuc
+        }
         print("Nhập Số điện thoại: ")
-        val phoneNumber = readLine() ?: ""
+        val phoneNumber = readlnOrNull() ?: ""
+        if (!inputValidator.isValidPhoneNumber(phoneNumber)) {
+            println("Số điện thoại phải 9-11 số")
+            return
+        } else {
+            // tiep tuc
+        }
         val contactInformation = ContactInformation(email, phoneNumber)
 
         println("\n--- Nhập Trạng Thái ---")
         print("Chọn trạng thái (1: Active, 2: Onleave, 3: Retired): ")
-        val statusChoice = readLine()?.toIntOrNull() ?: 1
-        val employeeStatus = creationService.createEmployeeStatus(statusChoice) { readLine() }
+        val statusChoice = readlnOrNull()?.toIntOrNull() ?: 1
+        val employeeStatus = creationService.createEmployeeStatus(statusChoice) { readlnOrNull() }
 
         val newEmployee = if (typeChoice == 1) {
-            // Logic cho FullTimeEmployee
+
             print("Chọn Chức vụ (1: Quản lý phòng ban, 2: Chuyên viên): ")
-            val positionChoice = readLine()?.toIntOrNull() ?: 2
+            val positionChoice = readlnOrNull()?.toIntOrNull() ?: 2
             print("Nhập Phụ cấp chức vụ (ví dụ: 1500000.0): ")
-            val allowance = readLine()?.toDoubleOrNull() ?: 0.0
+            val allowanceStr = readlnOrNull()
+            if (!inputValidator.isValidDouble(allowanceStr)) {
+                println("Phụ cấp không hợp lệ")
+                return
+            } else {
+                //tiep tuc
+            }
+            val allowance = allowanceStr!!.replace(',', '.').toDouble()
             print("Nhập Số ngày làm thêm giờ: ")
-            val overtimeDays = readLine()?.toIntOrNull() ?: 0
+            val overtimeDays = readlnOrNull()?.toIntOrNull() ?: 0
 
             creationService.createFullTimeEmployee(
                 id, fullName, birthYear, salaryCoefficient, contactInformation, employeeStatus,
@@ -74,11 +115,11 @@ class EmployeeManagemenScreen(
             )
         } else {
             print("Nhập Chuyên ngành: ")
-            val major = readLine() ?: ""
+            val major = readlnOrNull() ?: ""
             print("Nhập Trường đào tạo: ")
-            val university = readLine() ?: ""
+            val university = readlnOrNull() ?: ""
             print("Nhập Số dự án hoàn thành: ")
-            val projectsCompleted = readLine()?.toIntOrNull() ?: 0
+            val projectsCompleted = readlnOrNull()?.toIntOrNull() ?: 0
 
             creationService.createInternEmployee(
                 id, fullName, birthYear, salaryCoefficient, contactInformation, employeeStatus,
@@ -96,7 +137,7 @@ class EmployeeManagemenScreen(
     fun deleteEmployeeMenu() {
         println("\n--- Xóa Nhân Viên ---")
         print("Nhập Mã nhân viên cần xóa: ")
-        val idToDelete = readLine()?.trim()
+        val idToDelete = readlnOrNull()?.trim()
 
         if (idToDelete.isNullOrEmpty()) {
             println("Mã nhân viên không được để trống.")
@@ -108,7 +149,7 @@ class EmployeeManagemenScreen(
 
         if (employeeToRemove != null) {
             print("Bạn có chắc chắn muốn xóa nhân viên '${employeeToRemove.fullName}' (Y/N)? ")
-            val confirmation = readLine()?.trim()?.uppercase()
+            val confirmation = readlnOrNull()?.trim()?.uppercase()
 
             if (confirmation == "Y") {
                 if (dataHandler.deleteEmployee(idToDelete)) {
@@ -127,7 +168,7 @@ class EmployeeManagemenScreen(
     fun updateEmployeeStatusMenu() {
         println("\n--- Cập Nhật Trạng Thái Nhân Viên ---")
         print("Nhập Mã nhân viên cần cập nhật trạng thái: ")
-        val idToUpdate = readLine()?.trim()
+        val idToUpdate = readlnOrNull()?.trim()
 
         if (idToUpdate.isNullOrEmpty()) {
             println("Mã nhân viên không được để trống.")
@@ -142,9 +183,9 @@ class EmployeeManagemenScreen(
 
             println("\n--- Chọn Trạng Thái Mới ---")
             print("Chọn trạng thái (1: Active, 2: Onleave, 3: Retired): ")
-            val statusChoice = readLine()?.toIntOrNull() ?: 1
+            val statusChoice = readlnOrNull()?.toIntOrNull() ?: 1
 
-            val newStatus = creationService.createEmployeeStatus(statusChoice) { readLine() }
+            val newStatus = creationService.createEmployeeStatus(statusChoice) { readlnOrNull() }
 
             if (dataHandler.updateStatus(idToUpdate, newStatus) != null) {
                 println("Đã cập nhật trạng thái cho nhân viên ${employee.fullName}: ${newStatus::class.simpleName}")

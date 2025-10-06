@@ -12,6 +12,7 @@ hai loại nhân viên chính: Nhân viên Chính thức (FullTimeEmployee) và 
    Dữ liệu, Nghiệp vụ (Domain), và Trình bày (Presentation).
 ----------------------------------------------------------------------
 2. Cấu trúc code (các package)
+![img.png](img.png)
    2.1 app - Entry Point
    - Chứa hàm main() và khởi chạy ứng dụng.
    2.2 data - Quản lý dữ liệu

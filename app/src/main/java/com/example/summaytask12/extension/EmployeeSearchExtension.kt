@@ -8,7 +8,7 @@ fun List<Employee>.findEmployeeByName(keyword: String?): Employee? {
         val lowerKeyword = it.lowercase().trim()
 
         this.find { employee ->
-            employee.fullName.trim()?.lowercase()?.contains(lowerKeyword) ?: false
+            employee.fullName.trim().lowercase().contains(lowerKeyword)
         }
     }
 }
@@ -19,7 +19,7 @@ fun List<Employee>.findEmployeeByStatus(
 ): Employee? {
     return this.find { employee ->
         val checkName = name?.let {
-            employee.fullName.trim()?.lowercase()?.contains(it.trim().lowercase())
+            employee.fullName.trim().lowercase().contains(it.trim().lowercase())
         } ?: true
 
         val checkStatus = status.let {

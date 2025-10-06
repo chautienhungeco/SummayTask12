@@ -6,19 +6,21 @@ import com.example.summaytask12.domain.usecase.EmployeeCreationService
 import com.example.summaytask12.domain.usecase.EmployeeDataHandler
 import com.example.summaytask12.domain.usecase.EmployeeReportService
 import com.example.summaytask12.domain.usecase.EmployeeSearchService
+import com.example.summaytask12.domain.validation.InputValidator
 
 class EmployeeProgram {
-    val repository = EmployeeRepositoryImpl(EmployeeDataSeeder())
+    private val repository = EmployeeRepositoryImpl(EmployeeDataSeeder())
 
-    val reportService = EmployeeReportService(repository)
-    val searchService = EmployeeSearchService(repository)
-    val creationService = EmployeeCreationService()
-    val dataHandler = EmployeeDataHandler(repository)
+    private val reportService = EmployeeReportService(repository)
+    private val searchService = EmployeeSearchService(repository)
+    private val creationService = EmployeeCreationService()
+    private val dataHandler = EmployeeDataHandler(repository)
+    private val inputValidator = InputValidator()
 
-    val searchScreen = EmployeeSearchScreen(searchService)
-    val managementScreen = EmployeeManagemenScreen(dataHandler, creationService)
+    private val searchScreen = EmployeeSearchScreen(searchService)
+    private val managementScreen = EmployeeManagemenScreen(inputValidator, dataHandler, creationService)
 
-    fun displayMenu() {
+    private fun displayMenu() {
         println("---CHƯƠNG TRÌNH QUẢN LÝ NHÂN VIÊN---")
         println("1. Hiển thị danh sách nhân viên")
         println("2. Tìm nhân viên lương cao nhất")
@@ -39,7 +41,7 @@ class EmployeeProgram {
         var isRunning = true
         while (isRunning) {
             displayMenu()
-            when (val choice = readLine()?.toIntOrNull()) {
+            when (readlnOrNull()?.toIntOrNull()) {
                 1 -> println(reportService.generateEmployeeListReport())
                 2 -> println(reportService.generateHighestPaidEmployeeReport())
                 3 -> println(reportService.generateStatisticsReport())
@@ -55,6 +57,7 @@ class EmployeeProgram {
                     println("Đang thoát chương trình...")
                     isRunning = false
                 }
+
                 else -> println("Lựa chọn không hợp lệ, vui lòng thử lại.")
             }
         }
