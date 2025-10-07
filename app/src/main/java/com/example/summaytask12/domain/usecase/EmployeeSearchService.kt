@@ -5,13 +5,9 @@ import com.example.summaytask12.domain.model.Employee
 import com.example.summaytask12.domain.model.FullTimeEmployee
 import com.example.summaytask12.domain.model.Intern
 import com.example.summaytask12.domain.model.Position
+import com.example.summaytask12.domain.model.SortableCriteria
 
 class EmployeeSearchService(val repository: EmployeeRepository) {
-
-    suspend fun filterByBirthYear(maxYear: Int): List<Employee> {
-        val employees = repository.getAllEmployees()
-        return employees.filter { it.birthYear <= maxYear }
-    }
 
     suspend fun countEmployeesByPosition(): Map<Position, Int> {
         val employees = repository.getAllEmployees()
@@ -28,6 +24,36 @@ class EmployeeSearchService(val repository: EmployeeRepository) {
             .mapValues { it.value.size }
     }
 
+    suspend fun filerEmployee(
+        predicate: (Employee) -> Boolean
+    ): List<Employee> {
+        val employees = repository.getAllEmployees()
+        return employees.filter(predicate)
+    }
+
+    suspend fun sortEmployees(
+        criteria: SortableCriteria<Employee>,
+        isDescending: Boolean = false
+    ): List<Employee>{
+        val employees = repository.getAllEmployees()
+        val sortedList = employees.sortedWith(compareBy{
+            employee ->
+                criteria.getKey(employee)
+        })
+
+        if (isDescending){
+            return sortedList.reversed()
+        }else{
+            return sortedList
+        }
+    }
+}
+/*
+    suspend fun filterByBirthYear(maxYear: Int): List<Employee> {
+        val employees = repository.getAllEmployees()
+        return employees.filter { it.birthYear <= maxYear }
+    }
+
     suspend fun filterBySalaryRange(
         minSalary: Double,
         maxSalary: Double
@@ -38,4 +64,4 @@ class EmployeeSearchService(val repository: EmployeeRepository) {
             salary >= minSalary && salary <= maxSalary
         }
     }
-}
+}*/

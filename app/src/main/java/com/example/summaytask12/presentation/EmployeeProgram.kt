@@ -34,7 +34,8 @@ class EmployeeProgram {
         println("9. Thêm nhân viên mới")
         println("10. Xóa nhân viên hiện có")
         println("11. Cập nhật traạng thái cho nhân viên")
-        println("12. Thoát chương trình")
+        println("12. Sắp sếp danh sách nhân viên(lương/năm sinh)")
+        println("0. Thoát chương trình")
         print("Nhập lựa chọn của bạn: ")
     }
 
@@ -75,6 +76,9 @@ class EmployeeProgram {
                 }
                 11 -> runBlocking{
                     managementScreen.updateEmployeeStatusMenu()
+                }
+                12 -> runBlocking {
+                    searchScreen.sortEmployeeMenu()
                 }
                 0 -> {
                     println("Đang thoát chương trình...")

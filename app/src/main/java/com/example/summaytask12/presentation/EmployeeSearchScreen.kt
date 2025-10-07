@@ -6,6 +6,8 @@ import com.example.summaytask12.extension.findEmployeeByName
 import com.example.summaytask12.extension.findEmployeeByStatus
 import com.example.summaytask12.extension.formatCurrency
 import com.example.summaytask12.extension.getDisplayInfor
+import com.example.summaytask12.domain.model.SalarySortCriteria
+import com.example.summaytask12.domain.model.BirthYearSortCriteria
 
 class EmployeeSearchScreen(private val searchService: EmployeeSearchService) {
 
@@ -51,12 +53,14 @@ class EmployeeSearchScreen(private val searchService: EmployeeSearchService) {
         print("Nhập năm sinh tối đa: ")
         val maxYear = readlnOrNull()?.toIntOrNull()
 
-        if (maxYear == null || maxYear <= 0) {
+        if (maxYear == null || maxYear <= 1700) {
             println("Năm sinh không hợp lệ.")
             return
         }
 
-        val findList = searchService.filterByBirthYear(maxYear)
+        val findList = searchService.filerEmployee { employee ->
+            employee.birthYear <= maxYear
+        }
 
         println("\n--- Danh sách NV sinh trước hoặc năm $maxYear (${findList.size} người) ---")
         if (findList.isNotEmpty()) {
@@ -81,7 +85,10 @@ class EmployeeSearchScreen(private val searchService: EmployeeSearchService) {
             return
         }
 
-        val findList = searchService.filterBySalaryRange(minSalary, maxSalary)
+        val findList = searchService.filerEmployee { employee ->
+            val salary = employee.calculateSalary()
+            salary >= minSalary && salary <= maxSalary
+        }
 
         println("\n--- Danh sách NV lương từ ${minSalary.formatCurrency()} đến ${maxSalary.formatCurrency()} VNĐ (${findList.size} người) ---")
         if (findList.isNotEmpty()) {
@@ -107,6 +114,50 @@ class EmployeeSearchScreen(private val searchService: EmployeeSearchService) {
             }
         } else {
             println("Không có dữ liệu nhân viên.")
+        }
+    }
+
+    suspend fun sortEmployeeMenu(){
+        println("\n---Sắp xếp danh sách nhaan viên---")
+        println("Chọn tiêu chí sắp xếp: 1 - Lương, 2 - Năm sinh ")
+        print("Nhập lựa chọn: ")
+        val criteriaChoice = readlnOrNull()?.toIntOrNull()
+        val criteria = when(criteriaChoice){
+            1 -> SalarySortCriteria()
+            2 -> BirthYearSortCriteria()
+            else -> {
+                println("Lựa chọn không hợp lệ, mặc định sẽ sếp theo năm sinh!")
+                BirthYearSortCriteria()
+            }
+        }
+
+        println("Chọn thứ tự sắp xếp: 1 - Tăng dần, 2 - Giảm dần")
+        print("Nhập lựa chọn: ")
+        val orderChoice = readlnOrNull()?.toIntOrNull()
+        val isDescending = orderChoice == 2 //sx giam dan true (2)
+
+        val sortedList = searchService.sortEmployees(criteria, isDescending)
+
+        val criteriaName = if (criteria is SalarySortCriteria){
+            "Lương"
+        }else{
+            "Năm Sinh"
+        }
+        val orderName = if (isDescending){
+            "Giảm dần"
+        }else{
+            "Tăng dần"
+        }
+
+        println("\n Danh sách sắp xếp $criteriaName ($orderName)")
+
+        if (sortedList.isNotEmpty()){
+            sortedList.forEachIndexed{index, employee ->
+                println("${index + 1}. ${employee.getDisplayInfor()}")
+                println("----")
+            }
+        }else{
+            println("Không có thông tin")
         }
     }
 }

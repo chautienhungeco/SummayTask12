@@ -9,6 +9,7 @@ fun Employee.getDisplayInfor(): String {
         is FullTimeEmployee -> {
             "Mã nhân viên: ${this.employeeId}\n" +
                     "Họ tên: ${this.fullName}\n" +
+                    "Năm sinh: ${this.birthYear}\n" +
                     "Chức vụ: ${this.position}\n" +
                     "Lương: ${this.calculateSalary().formatCurrency()} VNĐ"
         }
@@ -16,6 +17,7 @@ fun Employee.getDisplayInfor(): String {
         is Intern -> {
             "Mã thực tập sinh: ${this.employeeId}\n" +
                     "Họ tên: ${this.fullName}\n" +
+                    "Năm sinh: ${this.birthYear}\n" +
                     "Trờng đào tạo: ${this.university}" +
                     "Lương: ${this.calculateSalary().formatCurrency()} VNĐ"
         }
@@ -23,6 +25,7 @@ fun Employee.getDisplayInfor(): String {
         else -> {
             "Mã nHân viên: ${this.employeeId}\n" +
                     "Họ tên: ${this.fullName}\n" +
+                    "Năm sinh: ${this.birthYear}\n" +
                     "Lương: ${this.calculateSalary().formatCurrency()} VNĐ"
         }
     }
